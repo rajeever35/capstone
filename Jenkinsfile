@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Cloning Git') {
       steps {
-        git 'git@github.com:pranjalnadhani/hermes-backend.git'
+        git 'git@github.com:rajeever35/capstone.git'
         script {
         sh 'ls'
         }
