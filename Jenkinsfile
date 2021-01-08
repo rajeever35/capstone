@@ -16,7 +16,7 @@ pipeline {
     }
     stage('HTML Lint') {
       steps {
-        sh 'tidy -q -e index.html'
+        sh 'tidy -q -e html_file/index.html'
       }
     }
 
