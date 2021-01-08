@@ -30,13 +30,12 @@ pipeline {
     stage('Push Images to Dockerhub') {
       steps{
         script {
-          withDockerRegistry(credentialsId: 'dockerhub') {
             sh "docker tag capstone:latest rajxxx/capstone:latest"
             /*sh "docker push rajxxx/capstone:latest"*/
             }
           }
         }
-      }
+      
 
     stage('Docker Container') {
       steps {
