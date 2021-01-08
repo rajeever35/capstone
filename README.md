@@ -61,3 +61,5 @@ Finally, enter the public DNS record in the web browser to access the page.
 $ kubectl get deployment
 NAME         READY   UP-TO-DATE   AVAILABLE   AGE
 application   1/1     1            1           67m
+
+Website Url :- http://a51b38bfe87114c2bbe51d289c244393-131057743.us-east-1.elb.amazonaws.com:8000/
