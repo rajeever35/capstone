@@ -1,0 +1,78 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: |
+  Capstone Project CloudFormation Servers Deployment.
+  - Launch Configuration and Group
+  - Application Load Balancer
+  - Bastion Host
+  - IAM Service Role
+  - Security Group
+Parameters:
+
+  ENVIRONMENTNAME:
+    Description: An environment name that will be prefixed to the resource names
+    Type: String
+
+  MYIP:
+    Description: IP Address to access the bastion
+    Type: String
+    Default: 192.168.43.193/32
+    
+  AWSEKSROLE:
+    Description: Role Assigned to the EKS Cluster
+    Type: String
+    Default: arn:aws:iam::418573230812:role/eksClusterRole
+
+  AWSEKSNODEGROUPROLE:
+    Description: Role Assigned to the EKS WorkNodeGroup
+    Type: String
+    Default: arn:aws:iam::418573230812:role/NodeInstanceRole
+
+Resources:
+  AWSEKSSECURITYGROUP:
+    Type: AWS::EC2::SecurityGroup
+    Properties: 
+      GroupDescription: AWS EKS-Cluster Security Group
+      Tags: 
+        - Key: Environment
+          Value: !Ref ENVIRONMENTNAME
+        -
+          Key: Name
+          Value: !Sub ${ENVIRONMENTNAME}-WEBSERVERGROUP
+      VpcId:
+        Fn::ImportValue: capstone-network-VPC
+
+  AWSEKSSECURITYGROUPINGRESS:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !Ref AWSEKSSECURITYGROUP
+      IpProtocol: tcp
+      FromPort: 0
+      ToPort: 65535
+      SourceSecurityGroupId: !Ref AWSEKSSECURITYGROUP
+
+  AWSEKSCLUSTER:
+    Type: 'AWS::EKS::Cluster'
+    Properties:
+      Name: AWSEKSCLUSTER
+      Version: '1.15'
+      RoleArn: !Ref AWSEKSROLE
+      ResourcesVpcConfig:
+        SecurityGroupIds:
+          - !Ref AWSEKSSECURITYGROUP
+        SubnetIds:
+          - Fn::ImportValue: capstone-network-PUBSUBNET1
+          - Fn::ImportValue: capstone-network-PUBSUBNET2
+
+  AWSEKSNODEGROUP:
+    Type: 'AWS::EKS::Nodegroup'
+    Properties:
+      ClusterName: !Ref AWSEKSCLUSTER
+      NodeRole: !Ref AWSEKSNODEGROUPROLE
+      ScalingConfig:
+        MinSize: 1
+        DesiredSize: 1
+        MaxSize: 3
+      Subnets:
+        - Fn::ImportValue: capstone-network-PUBSUBNET1
+        - Fn::ImportValue: capstone-network-PUBSUBNET2
