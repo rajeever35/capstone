@@ -22,7 +22,7 @@ pipeline {
 
     stage('Build Docker Image') {
       steps {
-        sh 'docker-compose build'
+        sh '/usr/local/bin/docker-compose build'
       }
     }
 
