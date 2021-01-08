@@ -42,11 +42,21 @@ pipeline {
         sh 'docker container run -d rajxxx/capstone:latest'
       }
     }
-
+		stage('Set current kubectl context') {
+			steps {
+				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'IAM', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+					sh '''
+						kubectl config use-context arn:aws:eks:us-east-1:418573230812:cluster/AWSEKSCLUSTER
+					'''
+				}
+			}
+		}
     stage('Deployment') {
       steps {
-        sh 'kubectl apply -f kubernetes_files/deploy.yml'
-        sh 'kubectl apply -f kubernetes_files/LoadBalancer.yml'
+        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'IAM', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+          sh 'kubectl apply -f kubernetes_files/deploy.yml'
+          sh 'kubectl apply -f kubernetes_files/LoadBalancer.yml'
+        }
       }
     }
 
