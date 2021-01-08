@@ -3,6 +3,7 @@ pipeline {
     registry = "rajxxx"
     registryCredential = 'dockerhub'
     dockerImage = ''
+    PATH = "$PATH:/usr/local/bin"
   }
   agent any
   stages {
