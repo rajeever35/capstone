@@ -29,13 +29,12 @@ pipeline {
 
     stage('Push Images to Dockerhub') {
       steps{
-        script {
+        withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_P', usernameVariable: 'DOCKER_U')]) {
             sh "docker tag capstone:latest rajxxx/capstone:latest"
-            /*sh "docker push rajxxx/capstone:latest"*/
-            }
+            sh "docker push rajxxx/capstone:latest"
           }
         }
-      
+      }
 
     stage('Docker Container') {
       steps {
