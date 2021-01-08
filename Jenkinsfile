@@ -14,11 +14,11 @@ pipeline {
         }
       }
     }
-    stage('HTML Lint') {
+    /*stage('HTML Lint') {
       steps {
         sh 'tidy -q -e html_file/index.html'
       }
-    }
+    }*/
 
     stage('Build Docker Image') {
       steps {
