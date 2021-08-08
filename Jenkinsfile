@@ -45,7 +45,7 @@ pipeline {
 			steps {
 				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'IAM', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 					sh '''
-						kubectl config use-context arn:aws:eks:us-east-1:255514956001:cluster/AWSEKSCLUSTER
+						kubectl config use-context arn:aws:eks:us-east-1:418573230812:cluster/AWSEKSCLUSTER
 					'''
 				}
 			}
