@@ -9,10 +9,10 @@
     },
     {
         "ParameterKey": "AWSEKSROLE",
-        "ParameterValue": "arn:aws:iam::418573230812:role/eksClusterRole"
+        "ParameterValue": "arn:aws:iam::255514956001:role/eksClusterRole"
     },
     {
         "ParameterKey": "AWSEKSNODEGROUPROLE",
-        "ParameterValue": "arn:aws:iam::418573230812:role/NodeInstanceRole"
+        "ParameterValue": "arn:aws:iam::255514956001:role/eksClusterRole"
     }
 ]
